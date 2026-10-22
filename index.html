@@ -412,6 +412,7 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
         <h3>Recepcionista de voz con IA</h3>
         <p>Coge las llamadas que tú no puedes: fuera de horario, cuando comunica o cuando estás con un cliente. Tus clientes siguen llamando a tu número de siempre; solo salta cuando tú no contestas.</p>
         <ul><li>Voz natural en español, avisando de que es un asistente</li><li>Toma nombre, teléfono y motivo, y los repite para confirmar</li><li>Detecta urgencias y te llegan marcadas como URGENTE al momento</li><li>Te pasa el recado por WhatsApp, listo para devolver la llamada</li></ul>
+        <a class="more" href="#voz">Escucha una llamada de ejemplo →</a>
       </article>
       <article class="card tilt">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 7.5l3 8M16 7.5l-3 8M8.5 6h7"/></svg></div>
@@ -495,6 +496,182 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
     </div>
   </div>
 </section>
+
+<!-- VOZ (demo recepcionista) -->
+<style>
+#voz{background:radial-gradient(900px 500px at 85% 30%,rgba(63,193,201,.12),transparent 60%),var(--ink)}
+.call{display:flex;flex-direction:column;height:600px;border-radius:30px;overflow:hidden;background:radial-gradient(420px 320px at 50% 18%,rgba(30,155,176,.28),transparent 70%),linear-gradient(180deg,#0d1b33,#060c18);color:#e9edef;position:relative}
+.call-top{text-align:center;padding:34px 18px 0}
+.call-top small{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
+.call-top b{display:block;font:500 22px/1.2 var(--f-display);margin-top:12px}
+.call-top span{display:block;color:#8fa3bf;font-size:14px;margin-top:6px;font-variant-numeric:tabular-nums}
+.call-av{width:104px;height:104px;margin:26px auto 0;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,var(--navy),#0f2442);border:1px solid rgba(63,193,201,.35);position:relative}
+.call-av svg{width:44px;height:44px}
+.call-av::before,.call-av::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(63,193,201,.45);opacity:0}
+.call.ai .call-av::before{animation:ring 1.6s ease-out infinite}
+.call.ai .call-av::after{animation:ring 1.6s .5s ease-out infinite}
+@keyframes ring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.45);opacity:0}}
+.wave{display:flex;justify-content:center;align-items:center;gap:4px;height:46px;margin-top:22px}
+.wave i{width:4px;height:6px;border-radius:4px;background:#3a4d6b;transition:background .3s}
+.call.ai .wave i{background:var(--aqua);animation:wv .9s ease-in-out infinite}
+.call.cli .wave i{background:#c9d4e6;animation:wv .9s ease-in-out infinite}
+.wave i:nth-child(2n){animation-delay:.12s}.wave i:nth-child(3n){animation-delay:.27s}.wave i:nth-child(5n){animation-delay:.4s}
+@keyframes wv{50%{height:34px}}
+.csub{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:18px 22px 0;text-align:center;min-height:0}
+.csub .who{font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--aqua);min-height:12px}
+.call.cli .csub .who{color:#c9d4e6}
+.csub p{font-size:17px;line-height:1.45;margin-top:10px;text-wrap:balance}
+.call-btns{display:flex;justify-content:center;gap:26px;padding:18px 0 30px}
+.call-btns span{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center}
+.call-btns span.end{background:#e5484d}
+.call-btns svg{width:22px;height:22px}
+.call-start{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:14px;background:rgba(5,10,20,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border:0;width:100%;cursor:pointer;color:var(--cloud);font:inherit;transition:opacity .3s}
+.call-start .play{width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,var(--turq),var(--aqua));display:grid;place-items:center;box-shadow:0 18px 50px -12px rgba(63,193,201,.8)}
+.call-start .play svg{width:32px;height:32px;margin-left:4px}
+.call-start b{font:500 17px/1.2 var(--f-display)}
+.call-start small{color:var(--mist);font-size:14px}
+.call-start[hidden]{display:none}
+.voz-log{font-size:14.5px;line-height:1.5;background:rgba(0,0,0,.3);border-radius:14px;padding:14px 16px;height:230px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;scroll-behavior:smooth}
+.voz-log:empty::before{content:"La transcripción aparecerá aquí.";color:#55688a;font-family:var(--f-mono);font-size:12.5px}
+.voz-log div{animation:pop .3s both}
+.voz-log b{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--aqua);margin-right:8px}
+.voz-log .c b{color:#c9d4e6}
+.recado{display:none;background:#202c33;border-radius:12px;border-top-left-radius:3px;padding:12px 14px 8px;color:#e9edef;font-size:14.5px;line-height:1.5;max-width:420px;animation:pop .35s both;margin-bottom:18px}
+.recado.show{display:block}
+.recado .from{font-size:12.5px;color:#53bdeb;font-weight:600;margin-bottom:6px}
+.recado .alert{display:inline-block;font:500 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--warn);border:1px solid currentColor;border-radius:999px;padding:4px 8px;margin:6px 0 2px}
+.recado time{display:block;text-align:right;font-size:10.5px;color:#8696a0}
+.recado .wa-btns button{cursor:default}
+.ticks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.ticks span{font-size:13px;padding:7px 11px;border-radius:999px;border:1px solid var(--line);color:#5d7192;transition:all .4s}
+.ticks span.on{color:var(--ok);border-color:rgba(63,214,155,.5);background:rgba(63,214,155,.08)}
+.ticks span.on::before{content:"✓ "}
+.voz-opts{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mist);cursor:pointer}
+.voz-opts input{accent-color:var(--aqua);width:16px;height:16px}
+.card .more{display:inline-flex;margin-top:16px;color:var(--aqua);font-weight:600;font-size:15px;text-decoration:none}
+.card .more:hover{text-decoration:underline}
+</style>
+<section class="block" id="voz" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Escucha la recepcionista</div>
+      <h2>Sábado, 13:42. La cocina a tope y el teléfono sonando.</h2>
+      <p>Nadie puede cogerlo, así que contesta la recepcionista de voz. Dale al play y escucha una llamada de ejemplo a un restaurante. A la derecha, lo que le llega al dueño.</p>
+    </div>
+    <div class="demo">
+      <div class="phone">
+        <div class="call" id="call">
+          <div class="call-top"><small>Llamada desviada</small><b>Restaurante Demo</b><span id="callTime">00:00</span></div>
+          <div class="call-av"><svg viewBox="0 0 24 24" fill="none" stroke="#3fc1c9" stroke-width="1.6" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></div>
+          <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="csub" aria-live="polite"><div class="who" id="subWho"></div><p id="subTxt"></p></div>
+          <div class="call-btns" aria-hidden="true">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="#e9edef" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+            <span class="end"><svg viewBox="0 0 24 24" fill="#fff"><path d="M3 15.5c5-5 13-5 18 0l-2.3 2.3-3.4-1.6v-2.6a12 12 0 0 0-6.6 0v2.6l-3.4 1.6z"/></svg></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="#e9edef" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></span>
+          </div>
+          <button class="call-start" id="callStart" type="button">
+            <span class="play"><svg viewBox="0 0 24 24" fill="#050a14"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+            <b>Escuchar la llamada</b><small>Unos 50 segundos · con sonido</small>
+          </button>
+        </div>
+      </div>
+      <div class="back">
+        <h3>Lo que te llega a ti</h3>
+        <p>Mientras sigues en la cocina, el recado te llega ordenado por WhatsApp, listo para confirmar.</p>
+        <div class="voz-log" id="vozLog" aria-live="polite"></div>
+        <div class="recado" id="recado">
+          <div class="from">Asistente · Restaurante Demo</div>
+          <b>Nueva petición de reserva</b> (llamada de las 13:42)<br>
+          Nombre: Javier Martínez<br>
+          Teléfono: el de la llamada (acaba en 78)<br>
+          Sábado · 21:30 · 6 personas<br>
+          <span class="alert">Alergia: marisco</span><br>
+          Nota: van con carrito de bebé
+          <time>13:44</time>
+          <div class="wa-btns"><button type="button" tabindex="-1">Confirmar reserva</button><button type="button" tabindex="-1">Llamar a Javier</button></div>
+        </div>
+        <div class="ticks" id="ticks">
+          <span data-at="0">Avisa de que es un asistente</span>
+          <span data-at="5">Toma el nombre</span>
+          <span data-at="8">Repite los datos para confirmar</span>
+          <span data-at="7">Marca la alergia</span>
+          <span data-at="11">Recado por WhatsApp</span>
+        </div>
+        <div class="demo-actions">
+          <label class="voz-opts"><input type="checkbox" id="vozSound" checked> Con voz</label>
+          <button class="link-btn" id="vozReset" type="button">Volver a empezar</button>
+        </div>
+        <div class="demo-actions" style="margin-top:8px"><small>Llamada de ejemplo con datos inventados y voces sintéticas de muestra. En tu negocio, la voz y el tono se adaptan a tu marca.</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(()=>{
+  const L=[
+    ['ai','Hola, has llamado a Restaurante Demo. Soy el asistente virtual del restaurante: ahora mismo no pueden atenderte. ¿En qué te ayudo?'],
+    ['c','Hola, quería reservar una mesa para seis el sábado por la noche.'],
+    ['ai','¡Claro! ¿A qué hora os vendría bien?'],
+    ['c','Sobre las nueve y media.'],
+    ['ai','Muy bien. ¿Me dices tu nombre, por favor?'],
+    ['c','Javier Martínez.'],
+    ['ai','Gracias, Javier. ¿Hay alguna alergia o algo que debamos saber?'],
+    ['c','Sí, uno de nosotros es alérgico al marisco. Y vamos con un carrito de bebé.'],
+    ['ai','Anotado. Entonces: seis personas, el sábado a las nueve y media, a nombre de Javier, con alergia al marisco y un carrito de bebé. ¿Es correcto?'],
+    ['c','Sí, perfecto.'],
+    ['ai','Genial. El restaurante te confirmará la reserva por WhatsApp a este mismo número en un rato. ¡Gracias por llamar, Javier!']
+  ];
+  const $=id=>document.getElementById(id);
+  const call=$('call'),start=$('callStart'),who=$('subWho'),txt=$('subTxt'),log=$('vozLog'),rec=$('recado'),tm=$('callTime'),snd=$('vozSound'),ticks=[...document.querySelectorAll('#ticks span')];
+  const SRC=i=>'audio/llamada-'+String(i).padStart(2,'0')+'.mp3';
+  const player=new Audio();player.preload='auto';
+  let run=0,timer=null,secs=0,warmed=false;
+  const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  function warm(){if(warmed)return;warmed=true;L.forEach((_,i)=>{const l=document.createElement('link');l.rel='prefetch';l.href=SRC(i);document.head.appendChild(l)})}
+  function say(i,text){
+    return new Promise(res=>{
+      const fallback=()=>wait(700+text.length*55).then(res);
+      if(!snd.checked){fallback();return}
+      let done=false;const fin=ok=>{if(done)return;done=true;clearTimeout(g);player.onended=player.onerror=null;ok?res():fallback()};
+      const g=setTimeout(()=>fin(true),4000+text.length*90);
+      player.onended=()=>fin(true);player.onerror=()=>fin(false);
+      player.src=SRC(i);player.play().catch(()=>fin(false));
+    });
+  }
+  function reset(){
+    run++;player.pause();clearInterval(timer);secs=0;tm.textContent='00:00';
+    call.classList.remove('ai','cli');who.textContent='';txt.textContent='';log.innerHTML='';rec.classList.remove('show');
+    ticks.forEach(t=>t.classList.remove('on'));start.hidden=false;
+  }
+  async function play(){
+    reset();const me=run;start.hidden=true;
+    timer=setInterval(()=>{secs++;tm.textContent=fmt(secs)},1000);
+    for(let i=0;i<L.length;i++){
+      if(me!==run) return;
+      const [r,t]=L[i];
+      call.classList.toggle('ai',r==='ai');call.classList.toggle('cli',r==='c');
+      who.textContent=r==='ai'?'Recepcionista IA':'Cliente';txt.textContent=t;
+      const d=document.createElement('div');if(r==='c')d.className='c';
+      d.innerHTML='<b>'+(r==='ai'?'IA':'Cliente')+'</b>';d.append(t);log.appendChild(d);log.scrollTop=log.scrollHeight;
+      ticks.forEach(k=>{if(+k.dataset.at===i)k.classList.add('on')});
+      await say(i,t);
+      if(me!==run) return;
+      await wait(r==='ai'?350:250);
+    }
+    call.classList.remove('ai','cli');clearInterval(timer);
+    who.textContent='Llamada finalizada';txt.textContent='El recado ya está en el WhatsApp del restaurante.';
+    await wait(700);if(me!==run) return;
+    rec.classList.add('show');ticks.forEach(k=>{if(+k.dataset.at>=11)k.classList.add('on')});
+    rec.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  start.addEventListener('click',play);
+  $('vozReset').addEventListener('click',reset);
+  snd.addEventListener('change',()=>{if(!snd.checked)player.pause()});
+  start.addEventListener('pointerenter',warm);start.addEventListener('touchstart',warm,{passive:true});
+})();
+</script>
 
 <!-- CALCULATOR -->
 <section class="block" id="calculadora" style="padding-top:0">
@@ -675,6 +852,7 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
     <p>Tomás Parra López (Alianza Inteligente), con domicilio en <span class="pend">[calle y número pendientes]</span>, 04600 Huércal-Overa (Almería). Contacto: tomasparra@alianzainteligente.com o 615 203 593.</p>
     <h3>Qué datos tratamos</h3>
     <p>El formulario de esta web no guarda nada: solo prepara un mensaje de WhatsApp que envías tú. Si lo envías, recibimos tu nombre, el de tu negocio, tu número de WhatsApp y lo que nos cuentes. Lo mismo ocurre si nos escribes por correo o nos llamas.</p>
+    <p>Si usas el asistente de chat, lo que escribes se envía a nuestra herramienta de automatización (Make) y a un proveedor de inteligencia artificial para generar la respuesta. No lo usamos para nada más que contestarte y no guardamos un historial de la conversación en la web. Si al final pulsas el botón de WhatsApp, recibimos lo que tú decidas enviar.</p>
     <h3>Para qué los usamos</h3>
     <ul>
       <li>Contestarte y preparar la auditoría gratis o un presupuesto.</li>
@@ -686,7 +864,7 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
     <h3>Cuánto tiempo los guardamos</h3>
     <p>Mientras hablamos contigo o dura el servicio. Después, solo el tiempo que obliguen las leyes (por ejemplo, las fiscales).</p>
     <h3>Con quién se comparten</h3>
-    <p>Con nadie, salvo obligación legal. Para funcionar usamos proveedores que tratan datos por nuestra cuenta: WhatsApp (Meta), que puede tratarlos fuera de la Unión Europea con las garantías que exige la ley, y el alojamiento de la web (Hostinger).</p>
+    <p>Con nadie, salvo obligación legal. Para funcionar usamos proveedores que tratan datos por nuestra cuenta: WhatsApp (Meta), que puede tratarlos fuera de la Unión Europea con las garantías que exige la ley, el alojamiento de la web (Hostinger) y, para el asistente de chat, Make (Celonis) y su proveedor de inteligencia artificial.</p>
     <h3>Tus derechos</h3>
     <p>Puedes pedir ver, corregir o borrar tus datos, limitar u oponerte a su uso, llevártelos a otro sitio y retirar tu consentimiento. Escríbenos a tomasparra@alianzainteligente.com. Si crees que no lo hemos hecho bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
     <h3>Datos de los clientes de nuestros clientes</h3>
@@ -718,6 +896,126 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
     <p class="foot-seo">Automatización con IA, asistentes de WhatsApp y de voz, diseño web y posicionamiento en Google para negocios de toda la provincia de Almería y la Región de Murcia, y en remoto para toda España.</p>
   </div>
 </footer>
+<!-- ===== ASISTENTE IA (chat) ===== -->
+<style>
+.ai-fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;border:0;cursor:pointer;padding:0 20px 0 6px;height:58px;border-radius:999px;background:linear-gradient(120deg,var(--turq),var(--aqua));color:var(--ink);font:600 15px/1 var(--f-body);box-shadow:0 14px 40px -10px rgba(63,193,201,.7);transition:transform .2s,box-shadow .2s}
+.ai-fab:hover{transform:translateY(-2px);box-shadow:0 18px 46px -10px rgba(63,193,201,.85)}
+.ai-fab .orb{width:46px;height:46px;border-radius:50%;background:var(--ink);display:grid;place-items:center;position:relative}
+.ai-fab .orb::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid rgba(5,10,20,.35);animation:aiPulse 2.4s ease-out infinite}
+@keyframes aiPulse{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.ai-fab svg{width:24px;height:24px}
+.ai-fab.open{opacity:0;pointer-events:none;transform:scale(.8)}
+@media (max-width:520px){.ai-fab .lbl{display:none}.ai-fab{padding:0 6px}}
+
+.ai-panel{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:61;width:min(400px,calc(100vw - 32px));height:min(620px,calc(100dvh - 110px));display:flex;flex-direction:column;border-radius:22px;overflow:hidden;background:rgba(8,17,36,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(63,193,201,.28);box-shadow:0 30px 80px -20px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.03) inset;transform-origin:bottom right;transform:scale(.92) translateY(10px);opacity:0;pointer-events:none;transition:transform .25s cubic-bezier(.2,.9,.3,1.2),opacity .2s}
+.ai-panel.open{transform:none;opacity:1;pointer-events:auto}
+@media (max-width:520px){.ai-panel{right:8px;left:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));height:calc(100dvh - 90px)}}
+.ai-head{display:flex;align-items:center;gap:12px;padding:16px 16px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(30,155,176,.16),transparent)}
+.ai-head img{width:36px;height:36px}
+.ai-head b{display:block;font:500 14px/1.2 var(--f-display)}
+.ai-head small{display:flex;align-items:center;gap:6px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--aqua);margin-top:5px}
+.ai-head small::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.ai-x{margin-left:auto;background:rgba(238,243,250,.06);border:1px solid var(--line);color:var(--cloud);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1}
+.ai-x:hover{background:rgba(238,243,250,.14)}
+.ai-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;overscroll-behavior:contain}
+.ai-msg{max-width:86%;padding:10px 14px;border-radius:16px;font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;animation:aiIn .25s ease-out}
+@keyframes aiIn{from{opacity:0;transform:translateY(6px)}}
+.ai-msg.bot{align-self:flex-start;background:rgba(238,243,250,.07);border:1px solid var(--line);border-bottom-left-radius:5px}
+.ai-msg.me{align-self:flex-end;background:linear-gradient(120deg,var(--turq),#2bb0bd);color:#04121a;border-bottom-right-radius:5px;font-weight:500}
+.ai-typing{display:inline-flex;gap:5px;padding:14px 16px}
+.ai-typing i{width:7px;height:7px;border-radius:50%;background:var(--aqua);animation:aiDot 1.2s infinite}
+.ai-typing i:nth-child(2){animation-delay:.15s}.ai-typing i:nth-child(3){animation-delay:.3s}
+@keyframes aiDot{0%,60%,100%{opacity:.25;transform:none}30%{opacity:1;transform:translateY(-4px)}}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 10px}
+.ai-chips button{background:transparent;border:1px solid rgba(63,193,201,.4);color:var(--aqua);border-radius:999px;padding:7px 12px;font:500 13px/1 var(--f-body);cursor:pointer}
+.ai-chips button:hover{background:rgba(63,193,201,.12)}
+.ai-lead{align-self:stretch;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;background:var(--cloud);color:var(--ink);font:600 15px/1 var(--f-body);padding:14px;border-radius:14px;animation:aiIn .3s ease-out}
+.ai-lead:hover{box-shadow:0 10px 30px -8px rgba(63,193,201,.6)}
+.ai-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.ai-form textarea{flex:1;resize:none;height:46px;max-height:120px;background:rgba(238,243,250,.06);border:1px solid var(--line);border-radius:14px;color:var(--cloud);font:16px/1.4 var(--f-body);padding:12px 14px}
+.ai-form textarea:focus{outline:none;border-color:var(--aqua)}
+.ai-form button{width:46px;height:46px;flex:none;border:0;border-radius:14px;cursor:pointer;background:linear-gradient(120deg,var(--turq),var(--aqua));color:var(--ink);display:grid;place-items:center}
+.ai-form button:disabled{opacity:.4;cursor:default}
+.ai-note{font-size:11.5px;color:#6f84a6;text-align:center;padding:0 14px 12px;line-height:1.4}
+.ai-note a{color:inherit}
+</style>
+
+<button class="ai-fab" id="aiFab" type="button" aria-controls="aiPanel" aria-expanded="false">
+  <span class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="#3fc1c9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="2.6"/></svg></span>
+  <span class="lbl">¿Te ayudo?</span>
+</button>
+
+<section class="ai-panel" id="aiPanel" role="dialog" aria-label="Asistente de Alianza Inteligente" aria-hidden="true">
+  <div class="ai-head">
+    <img id="aiLogo" alt="">
+    <div><b>Asistente de Alianza</b><small>En línea · IA</small></div>
+    <button class="ai-x" id="aiClose" type="button" aria-label="Cerrar el chat">×</button>
+  </div>
+  <div class="ai-log" id="aiLog" aria-live="polite"></div>
+  <div class="ai-chips" id="aiChips">
+    <button type="button">¿Qué podéis automatizar?</button>
+    <button type="button">Tengo una clínica</button>
+    <button type="button">Tengo un restaurante</button>
+    <button type="button">¿Cuánto cuesta?</button>
+  </div>
+  <form class="ai-form" id="aiForm">
+    <textarea id="aiIn" rows="1" maxlength="600" placeholder="Escribe tu pregunta…" aria-label="Tu mensaje"></textarea>
+    <button type="submit" id="aiSend" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+  <p class="ai-note">Asistente con IA: puede equivocarse. No compartas datos sensibles. <a href="#privacidad">Privacidad</a></p>
+</section>
+
+<script>
+(()=>{
+  const HOOK='https://hook.eu1.make.com/36cypy7qseypm2n2bcncyrnso1h3dh3s';
+  const WA='34615203593';
+  const MAX_TURNS=20;
+  const $=id=>document.getElementById(id);
+  const fab=$('aiFab'),panel=$('aiPanel'),log=$('aiLog'),form=$('aiForm'),inp=$('aiIn'),send=$('aiSend'),chips=$('aiChips');
+  const brand=document.querySelector('.brand img'); if(brand) $('aiLogo').src=brand.src;
+  const hist=[]; let busy=false, turns=0, greeted=false;
+
+  function add(role,text){const d=document.createElement('div');d.className='ai-msg '+(role==='me'?'me':'bot');d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+  function typing(){const d=document.createElement('div');d.className='ai-msg bot ai-typing';d.innerHTML='<i></i><i></i><i></i>';log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+  function leadBtn(summary){
+    const txt='Hola Tomás, vengo del asistente de la web y quiero la auditoría gratis.\n'+summary;
+    const a=document.createElement('a');a.className='ai-lead';a.target='_blank';a.rel='noopener';
+    a.href='https://wa.me/'+WA+'?text='+encodeURIComponent(txt);
+    a.innerHTML='Enviar a Tomás por WhatsApp →';log.appendChild(a);log.scrollTop=log.scrollHeight;
+  }
+  function open(o){panel.classList.toggle('open',o);fab.classList.toggle('open',o);fab.setAttribute('aria-expanded',o);panel.setAttribute('aria-hidden',!o);
+    if(o){if(!greeted){greeted=true;const g='¡Hola! Soy el asistente de Alianza Inteligente. Cuéntame qué negocio tienes y te digo qué podríamos automatizar para ahorrarte tiempo.';add('bot',g);hist.push(['Asistente',g])}setTimeout(()=>inp.focus(),250)}}
+  fab.onclick=()=>open(true); $('aiClose').onclick=()=>open(false);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))open(false)});
+  chips.addEventListener('click',e=>{if(e.target.tagName==='BUTTON')ask(e.target.textContent)});
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});
+  inp.addEventListener('input',()=>{inp.style.height='46px';inp.style.height=Math.min(inp.scrollHeight,120)+'px'});
+  form.addEventListener('submit',e=>{e.preventDefault();ask(inp.value)});
+
+  async function ask(q){
+    q=(q||'').trim(); if(!q||busy) return;
+    if(turns>=MAX_TURNS){add('bot','Para seguir, mejor hablamos directamente: escríbenos por WhatsApp al 615 203 593.');return}
+    busy=true;send.disabled=true;chips.style.display='none';turns++;
+    add('me',q);hist.push(['Cliente',q]);inp.value='';inp.style.height='46px';
+    const t=typing();
+    const history=hist.slice(-14).map(([w,m])=>w+': '+m).join('\n').slice(-6000);
+    const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),45000);
+    try{
+      const r=await fetch(HOOK,{method:'POST',body:new URLSearchParams({history,page:location.pathname}),signal:ctrl.signal});
+      if(!r.ok) throw new Error(r.status);
+      let a=(await r.text()).trim(); if(!a) throw new Error('vacío');
+      let lead=null; const m=a.match(/\[\[LEAD\]\]\s*(.*)$/s);
+      if(m){lead=m[1].trim();a=a.slice(0,m.index).trim()}
+      t.remove(); if(a){add('bot',a);hist.push(['Asistente',a])}
+      if(lead){const p=lead.split('|').map(s=>s.trim());leadBtn('Nombre: '+(p[0]||'')+'\nNegocio: '+(p[1]||'')+'\nNecesito: '+(p[2]||''))}
+    }catch(err){
+      t.remove();add('bot','Ahora mismo no puedo responder. Escríbenos por WhatsApp y te contesta Tomás en persona.');leadBtn('Mi pregunta: '+q);
+    }finally{clearTimeout(to);busy=false;send.disabled=false}
+  }
+})();
+</script>
+<!-- ===== /ASISTENTE IA ===== -->
+
 
 <script>
 (()=>{
@@ -869,5 +1167,4 @@ document.getElementById('form').addEventListener('submit',e=>{e.preventDefault()
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://alianzainteligente.com/#negocio", "name": "Alianza Inteligente", "slogan": "Conexiones estratégicas", "description": "Automatización con IA, asistentes de WhatsApp y de voz, diseño web y posicionamiento en Google para negocios de Almería y la Región de Murcia.", "url": "https://alianzainteligente.com/", "logo": "https://alianzainteligente.com/img/logo-alianza-inteligente.png", "image": "https://alianzainteligente.com/img/compartir-alianza-inteligente.jpg", "telephone": "+34615203593", "email": "tomasparra@alianzainteligente.com", "address": {"@type": "PostalAddress", "addressLocality": "Huércal-Overa", "postalCode": "04600", "addressRegion": "Almería", "addressCountry": "ES"}, "geo": {"@type": "GeoCoordinates", "latitude": 37.3887, "longitude": -1.9433}, "areaServed": [{"@type": "AdministrativeArea", "name": "Provincia de Almería"}, {"@type": "AdministrativeArea", "name": "Región de Murcia"}, {"@type": "Country", "name": "España"}], "founder": {"@type": "Person", "name": "Tomás Parra López"}, "availableLanguage": ["es", "en"], "knowsAbout": ["Automatización con inteligencia artificial", "Asistentes de WhatsApp", "Recepcionista de voz con IA", "Diseño web", "Posicionamiento en Google", "Google Business Profile"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Servicios", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Asistente de citas por WhatsApp"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Recepcionista de voz con IA"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automatizaciones a medida"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diseño web"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Posicionamiento en Google"}}]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Necesito saber de tecnología?", "acceptedAnswer": {"@type": "Answer", "text": "No. Nosotros lo montamos, lo explicamos con palabras normales y te dejamos una guía sencilla. Tú sigues trabajando como siempre."}}, {"@type": "Question", "name": "¿Funciona con el programa que ya uso?", "acceptedAnswer": {"@type": "Answer", "text": "Depende del programa. Si tiene conexión abierta, lo conectamos directamente. Si no, montamos el sistema como complemento para que trabaje a su lado sin estorbar. Lo vemos en la auditoría."}}, {"@type": "Question", "name": "¿Es WhatsApp oficial?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Usamos la API oficial de WhatsApp Business de Meta, con plantillas de mensaje aprobadas por Meta."}}, {"@type": "Question", "name": "¿Qué pasa con los datos de mis clientes?", "acceptedAnswer": {"@type": "Answer", "text": "Trabajamos según el RGPD y firmamos contigo un contrato de encargado del tratamiento. Solo usamos los datos que el sistema necesita para funcionar."}}, {"@type": "Question", "name": "¿Me ayudáis a salir en Google Maps?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Revisamos tu ficha y tu web, vemos qué te está frenando y lo arreglamos. Después dejamos en marcha sistemas que la mantienen viva sin que tengas que tocar nada. Nadie puede garantizar el primer puesto, pero sí que juegues con todas tus cartas."}}, {"@type": "Question", "name": "¿Atendéis en inglés?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Podemos hablar contigo en inglés y dejar tus mensajes de WhatsApp, tu asistente de voz y tu web en inglés y en español, para llegar también a tus clientes extranjeros."}}, {"@type": "Question", "name": "¿Trabajáis fuera de Huércal-Overa?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Huércal-Overa está entre Almería y Murcia, así que vamos en persona a cualquier pueblo de las dos provincias. Con el resto de España trabajamos en remoto."}}, {"@type": "Question", "name": "¿Cuánto cuesta?", "acceptedAnswer": {"@type": "Answer", "text": "Cada negocio es distinto. Tras la auditoría gratis te damos un presupuesto cerrado: una instalación y una cuota mensual de mantenimiento, sin sorpresas."}}]}</script>
-
 </body></html>
