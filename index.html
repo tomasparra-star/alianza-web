@@ -68,7 +68,13 @@ p{margin:0}
 .hero .wrap > *{pointer-events:auto}
 .hero h1{font-size:clamp(40px,7.4vw,98px);margin:0 0 22px}
 .hero h1 .big{display:block;max-width:11ch}
-.hero h1 .kw{display:block;font:500 12px/1.5 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--aqua);margin-bottom:18px;max-width:none}
+.hero h1 .kw{display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;font:500 clamp(12.5px,1.15vw,15px)/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cloud);margin-bottom:24px;padding:9px 16px;border:1px solid rgba(63,193,201,.5);border-radius:999px;background:rgba(5,10,20,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hero h1 .kw::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--aqua);box-shadow:0 0 10px var(--aqua)}
+.hero .ctas{align-items:center}
+.hero .ctas .btn-main{padding:19px 32px;font-size:17px;background:linear-gradient(100deg,var(--aqua),#9be8ec);color:var(--ink);box-shadow:0 0 0 1px rgba(63,193,201,.6),0 14px 40px -10px rgba(63,193,201,.75)}
+.hero .ctas .btn-main:hover{box-shadow:0 0 0 1px rgba(63,193,201,.8),0 18px 50px -10px rgba(63,193,201,.95)}
+.hero .ctas .btn-ghost{background:none;border:0;backdrop-filter:none;padding:14px 8px;color:var(--mist);font-weight:500}
+.hero .ctas .btn-ghost:hover{background:none;color:var(--cloud)}
 .hero .lead{max-width:540px;font-size:clamp(17px,1.6vw,20px);color:#c9d6e8}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hint{display:inline-flex;align-items:center;gap:10px;margin-top:34px;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--mist);padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(5,10,20,.4);backdrop-filter:blur(6px)}
@@ -359,10 +365,10 @@ footer .legal-links a:hover{color:var(--cloud);text-decoration:underline}
   <canvas id="net" aria-hidden="true"></canvas>
   <div class="wrap">
     <h1><span class="kw">Automatización con IA y diseño web en Almería y Murcia</span><span class="big">Tu negocio, conectado <span class="grad">al futuro.</span></span></h1>
-    <p class="lead">Asistentes de WhatsApp y de voz, automatizaciones con IA, webs que impactan y posicionamiento en Google. Desde Huércal-Overa, entre Almería y Murcia, para negocios que no quieren perder ni un cliente más.</p>
+    <p class="lead">Cada llamada sin contestar es un cliente que se va a la competencia. Hacemos que tu negocio conteste, confirme citas y avise solo, aunque tú no puedas.</p>
     <div class="ctas">
       <a class="btn btn-main" href="#contacto">Pide tu auditoría gratis <span aria-hidden="true">→</span></a>
-      <a class="btn btn-ghost" href="#demo">Prueba la demo</a>
+      <a class="btn btn-ghost" href="#demo">o prueba la demo <span aria-hidden="true">→</span></a>
     </div>
     <div class="hint" id="hint"><i></i><span>Mueve el cursor sobre el cristal</span></div>
   </div>
